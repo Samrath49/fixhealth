@@ -56,7 +56,7 @@ const Step5: React.FC<Step5Props> = ({ formData, setFormData, errors }) => {
                   {doctor.name}
                   <>
                     {doctor?.expertise?.map((expertise: string, i) => (
-                      <Badge variant="secondary" className="ml-2">
+                      <Badge key={i} variant="secondary" className="ml-2">
                         {expertise}
                       </Badge>
                     ))}
