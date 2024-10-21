@@ -1,3 +1,5 @@
+"use client";
+import { scrollToSection } from "@/common";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heart } from "lucide-react";
@@ -19,7 +21,10 @@ export default function MainBanner() {
               a particular doctor.
             </p>
             <div className="flex space-x-4">
-              <Button className="bg-sky-500 hover:bg-sky-600 text-white">
+              <Button
+                onClick={() => scrollToSection("consult-doctor")}
+                className="bg-sky-500 hover:bg-sky-600 text-white"
+              >
                 Consult Now
               </Button>
             </div>

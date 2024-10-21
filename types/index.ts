@@ -19,6 +19,18 @@ export interface Booking {
   selectedDoctor?: string;
 }
 
+export interface FormData {
+  name: string;
+  phone: string;
+  age: string;
+  city: string;
+  occupation: string;
+  company: string;
+  complaints: string;
+  previousExperience: string;
+  selectedDoctor: string;
+}
+
 export interface ApiResponse<T> {
   data?: T;
   error?: string;

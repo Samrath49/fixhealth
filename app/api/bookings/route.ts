@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const body: Booking = await request.json();
 
-    // Validation logic
+    // re-validation logic incase frontend input is not checked
     if (body.age < 30) {
       delete body.previousPhysioExperience;
     }
