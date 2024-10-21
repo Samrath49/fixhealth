@@ -45,6 +45,11 @@ const Step5: React.FC<Step5Props> = ({ formData, setFormData, errors }) => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            {typeof doctors === "object" && doctors?.length <= 0 && (
+              <SelectLabel>
+                No doctors found for city: {formData?.city}
+              </SelectLabel>
+            )}
             {!isLoading &&
               doctors?.map((doctor) => (
                 <SelectItem key={doctor?._id} value={doctor?._id}>
