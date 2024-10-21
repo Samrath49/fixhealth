@@ -3,6 +3,8 @@ import { getDatabase } from "@/lib/mongodb";
 import { ApiErrors, Collections } from "@/constants/api";
 import type { Doctor, ApiResponse } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: Request
 ): Promise<NextResponse<ApiResponse<Doctor[]>>> {
