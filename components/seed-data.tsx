@@ -3,14 +3,18 @@ import { useDoctors, useSeedData } from "@/hooks/api/useDoctor";
 import { useEffect } from "react";
 
 const SeedData = () => {
-  const { data: doctors, isLoading } = useDoctors();
-  const { mutate: seedData } = useSeedData();
+  const { data: doctors, isLoading, refetch } = useDoctors();
+  const { mutate: seedData, isSuccess } = useSeedData();
 
   useEffect(() => {
-    if (!doctors && !isLoading) {
+    if (typeof doctors === "object" && doctors?.length <= 0 && !isLoading) {
       seedData();
     }
   }, [doctors, seedData]);
+
+  useEffect(() => {
+    refetch();
+  }, [isSuccess]);
   return null;
 };
 

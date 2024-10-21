@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
-import { Doctor, FormData } from "@/types";
+import { FormData } from "@/types";
 import Step1 from "./steps/Step1";
 import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
@@ -72,19 +72,6 @@ const validateField = (name: string, value: string): string => {
   }
 };
 
-const fetchDoctors = async (city: string): Promise<Doctor[]> => {
-  try {
-    const response = await fetch(
-      `/api/doctors?city=${encodeURIComponent(city)}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch doctors");
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching doctors:", error);
-    return [];
-  }
-};
-
 const Consultation = () => {
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
@@ -97,19 +84,17 @@ const Consultation = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const searchParams = useSearchParams();
 
   useEffect(() => {
     localStorage.setItem("consultationFormData", JSON.stringify(formData));
   }, [formData]);
 
-  // Fetch doctors when city changes or when city URL param is present
   useEffect(() => {
     if (formData.city || searchParams.get("city")) {
       const cityParam = searchParams.get("city");
       const cityToUse = cityParam || formData.city;
-      fetchDoctors(cityToUse).then(setDoctors);
+      setFormData((prevData) => ({ ...prevData, city: cityToUse }));
     }
   }, [formData.city, searchParams]);
 
@@ -279,17 +264,12 @@ const Consultation = () => {
               </div>
             </>
           ) : (
-            <div className="bg-white p-8 rounded-lg shadow-md">
+            <div className="bg-background p-8 rounded-lg shadow-md">
               <h2 className="text-2xl font-bold mb-4">
                 Book Your Consultation
               </h2>
               <form className="space-y-4">
                 {renderStep()}
-                {/*  <Step5
-                  formData={formData}
-                  setFormData={setFormData}
-                  errors={errors}
-                /> */}
                 <div className="flex justify-between mt-2">
                   {step > 1 && (
                     <Button

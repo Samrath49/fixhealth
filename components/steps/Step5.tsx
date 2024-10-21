@@ -7,9 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Doctor, FormData } from "@/types";
+import { FormData } from "@/types";
 import { useDoctors } from "@/hooks/api/useDoctor";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
+import { Badge } from "../ui/badge";
 
 interface Step5Props {
   formData: FormData;
@@ -18,7 +19,7 @@ interface Step5Props {
 }
 
 const Step5: React.FC<Step5Props> = ({ formData, setFormData, errors }) => {
-  const { data: doctors, isLoading } = useDoctors();
+  const { data: doctors, isLoading } = useDoctors(formData?.city);
 
   const getDoctorNameForId = (id: string): string => {
     if (!doctors || !id) return "";
@@ -48,6 +49,13 @@ const Step5: React.FC<Step5Props> = ({ formData, setFormData, errors }) => {
               doctors?.map((doctor) => (
                 <SelectItem key={doctor?._id} value={doctor?._id}>
                   {doctor.name}
+                  <>
+                    {doctor?.expertise?.map((expertise: string, i) => (
+                      <Badge variant="secondary" className="ml-2">
+                        {expertise}
+                      </Badge>
+                    ))}
+                  </>
                 </SelectItem>
               ))}
           </SelectGroup>
